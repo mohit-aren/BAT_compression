@@ -7,3 +7,4 @@
    ii) VGG16_pruned.weights.h5
 
 We can check the reduction in size from the 2 files. The model architecture of compressed model will also be shown at end before its training epochs.
+Both original and compressed models' accuracy and inference time will also be shown at the end.

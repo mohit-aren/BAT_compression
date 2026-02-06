@@ -1200,3 +1200,22 @@ arr = model1 .evaluate(X,y)
 
 
 print(arr)
+
+import time
+#Check accuracy and inference time of original model
+model_final.load_weights('/content/drive/MyDrive/CIFAR-10/keras_vgg16_main.weights.h5')
+start = time.time()
+arr = model_final.evaluate(X,y)
+print(arr)
+stop = time.time()
+
+print('Inference time of original model (sec): ', stop-start)
+
+#Check accuracy and inference time of compressed model
+start = time.time()
+arr = model1.evaluate(X,y)
+print(arr)
+stop = time.time()
+
+print('Inference time of compressed model (sec): ', stop-start)
+

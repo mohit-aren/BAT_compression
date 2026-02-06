@@ -79,7 +79,7 @@ print(np.array(X_train).shape)
 print(np.array(y_train).shape)
 
 #Train the base VGG16 model with train set
-#model_final.fit(X_train,y_train,batch_size=64,epochs=20)
+model_final.fit(X_train,y_train,batch_size=64,epochs=20)
 
 model = model_final
 model_path = '/content/drive/MyDrive/CIFAR-10/keras_vgg16_main.weights.h5'

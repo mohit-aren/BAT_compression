@@ -1,3 +1,8 @@
+
+
+from google.colab import drive
+drive.mount('/content/drive')
+
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,9 +25,6 @@ from tensorflow.keras.applications import VGG16
 import random
 from keras.datasets import cifar10
 img_width, img_height = 48, 48
-
-from google.colab import drive
-drive.mount('/content/drive')
 
 model=VGG16(weights="imagenet", include_top=False, input_shape=(img_width, img_height, 3))
 
@@ -49,9 +51,11 @@ model_final.compile(loss="categorical_crossentropy", optimizer=optimizers.SGD(le
 
 model_final.summary()
 
+from google.colab import drive
+drive.mount('/content/drive')
 
 #Read CIFAR-10 dataset
- (X_train, y_train), (X_test, y_test) = cifar10.load_data()
+(X_train, y_train), (X_test, y_test) = cifar10.load_data()
 
 X_train = [cv2.resize(i, (48,48)) for i in X_train]
 X_train = np.concatenate([arr[np.newaxis] for arr in X_train]).astype('float32')
@@ -75,7 +79,7 @@ print(np.array(X_train).shape)
 print(np.array(y_train).shape)
 
 #Train the base VGG16 model with train set
-model_final.fit(X_train,y_train,batch_size=64,epochs=20)
+#model_final.fit(X_train,y_train,batch_size=64,epochs=20)
 
 model = model_final
 model_path = '/content/drive/MyDrive/CIFAR-10/keras_vgg16_main.weights.h5'
@@ -272,10 +276,11 @@ print("\nOptimized Solution:", best_position)
 print("Best Fitness Value:", best_fitness)
 
 #Create a vector to store dominant filters in this layer
-A1 = np.copy(best_position)
+A1 = np.copy(ensure_bounds(best_position))
 new_num = np.sum(ensure_bounds(best_position))
 
 print(new_num)
+print(A1)
 layer1_a = new_num
 
 ####################### Perform BAT optimization  1st convolution layer with 256 filters
@@ -409,10 +414,11 @@ print("\nOptimized Solution:", best_position)
 print("Best Fitness Value:", best_fitness)
 
 
-A2 = np.copy(best_position)
+A2 = np.copy(ensure_bounds(best_position))
 new_num = np.sum(ensure_bounds(best_position))
 
 print(new_num)
+print(A2)
 layer2_a = new_num
 
 ####################### Perform BAT optimization  1st convolution layer with 512 filters
@@ -545,10 +551,11 @@ print("\nOptimized Solution:", best_position)
 print("Best Fitness Value:", best_fitness)
 
 
-A3 = np.copy(best_position)
+A3 = np.copy(ensure_bounds(best_position))
 new_num = np.sum(ensure_bounds(best_position))
 
 print(new_num)
+print(A3)
 layer3_a = new_num
 
 ####################### Perform BAT optimization  2nd convolution layer with 512 filters
@@ -681,10 +688,11 @@ print("\nOptimized Solution:", best_position)
 print("Best Fitness Value:", best_fitness)
 
 
-A4 = np.copy(best_position)
+A4 = np.copy(ensure_bounds(best_position))
 new_num = np.sum(ensure_bounds(best_position))
 
 print(new_num)
+print(A4)
 layer4_a = new_num
 
 ####################### Perform BAT optimization  1st dense layer with 1024 filters
@@ -817,10 +825,11 @@ print("\nOptimized Solution:", best_position)
 print("Best Fitness Value:", best_fitness)
 
 
-A5 = np.copy(best_position)
+A5 = np.copy(ensure_bounds(best_position))
 new_num = np.sum(ensure_bounds(best_position))
 
 print(new_num)
+print(A5)
 layer5_a = new_num
 
 
@@ -954,10 +963,11 @@ print("\nOptimized Solution:", best_position)
 print("Best Fitness Value:", best_fitness)
 
 
-A6 = np.copy(best_position)
+A6 = np.copy(ensure_bounds(best_position))
 new_num = np.sum(ensure_bounds(best_position))
 
 print(new_num)
+print(A6)
 layer6_a = new_num
 
 #Design the compressed model with reduced number of nodes as obtained from BAT optmization
@@ -994,6 +1004,7 @@ model1.summary()
 layerr = model_final.layers[1].get_weights()
 model1.layers[0].set_weights(layerr)
 
+model_final.load_weights('/content/drive/MyDrive/CIFAR-10/keras_vgg16_main.weights.h5')
 model = model_final
 ######################## Copy the weights from original trained model in corresponding neurons for 1st convolution layer with 128 filters
 filters, biases = model.layers[4].get_weights()
